@@ -23,19 +23,11 @@
                     <div class="card-header">
                         <h2><?= session('sub'); ?></h2>
                     </div>
-                    <div class="card-body ">
+                    <div class="card-body">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary tomboltambah">
-                                <i class="fa fa-plus-circle"></i>&nbsp;Data Barang
-                            </button>
-                            &nbsp;
-                            <button type="button" class="btn btn-primary tomboltambahbanyak">
-                                <i class="fa fa-plus-circle"></i>&nbsp;Data Banyak
-                            </button>
+                            <button type="button" class="btn btn-primary btntambahhpp"><i class="fa fa-plus-circle"></i> HPP Baru</button>
                         </div>
-
                         <p class="viewdata"></p>
-
                     </div><!-- /.card-body -->
                 </div><!-- /.card -->
             </div><!-- /.col -->
@@ -46,10 +38,10 @@
 <div class="viewmodal" style="display: none;"></div>
 
 <script>
-    function databarang() {
+    function datahpp() {
 
         $.ajax({
-            url: "<?= base_url('barang/ambildata') ?>",
+            url: "<?= base_url('hpp/ambilDataHpp') ?>",
             dataType: "json",
             beforeSend: function() {
                 $('.viewdata').html('<i class="fa fa-spin fa-sync"></i>')
@@ -65,12 +57,12 @@
     }
 
     $(document).ready(function() {
-        databarang();
+        datahpp();
 
-        $('.tomboltambah').click(function(e) {
+        $('.btntambahhpp').click(function(e) {
             e.preventDefault();
             $.ajax({
-                url: "<?= base_url('barang/form_tambah_barang') ?>",
+                url: "<?= base_url('hpp/form_tambahhpp') ?>",
                 dataType: "json",
                 success: function(response) {
                     $('.viewmodal').html(response.data).show();
@@ -83,22 +75,6 @@
             });
         });
 
-        $('.tomboltambahbanyak').click(function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: "<?= base_url('barang/form_tambah_banyak_barang') ?>",
-                dataType: "json",
-                beforeSend: function() {
-                    $('.viewdata').html('<i class="fa fa-spin fa-sync"></i>')
-                },
-                success: function(response) {
-                    $('.viewdata').html(response.data).show();
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
-            });
-        });
     });
 </script>
 

@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>| Perhitungan HPP</title>
+    <title><?= session('title'); ?> | Perhitungan HPP</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/fontawesome-free/css/all.min.css">
@@ -92,8 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item active">Pages</li>
-                                <li class="breadcrumb-item active">list barang</li>
+                                <li class="breadcrumb-item active"><?= session('breadcrump'); ?></li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->

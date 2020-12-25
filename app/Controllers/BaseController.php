@@ -17,6 +17,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\BarangModel;
+use App\Models\HppModel;
 
 class BaseController extends Controller
 {
@@ -45,5 +46,6 @@ class BaseController extends Controller
 		$this->session = \Config\Services::session();
 
 		$this->brg = new BarangModel();
+		$this->hpp = new HppModel();
 	}
 }
