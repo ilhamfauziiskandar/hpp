@@ -30,7 +30,7 @@
                     <?= $no++; ?>
                 </td>
                 <td>
-                    Tanggal &nbsp; : &nbsp;<?= date('d-M-Y', strtotime($hpps['date'])); ?>&nbsp; | &nbsp; ID HPP &nbsp; : &nbsp; <?= $hpps['id_hpp']; ?>
+                    Tanggal &nbsp; : &nbsp;<?= date('d-M-Y', strtotime($hpps['date'])); ?>&nbsp; | &nbsp; ID HPP &nbsp; : &nbsp; <?= $hpps['id_hpp']; ?> | &nbsp; Nama &nbsp; : &nbsp; <?= $hpps['nama_hpp']; ?>
                 </td>
                 <td>
                     <btn class="btn btn-info btn-sm" href="<?= base_url('hpp/persediaan/' . $hpps['id_persediaan']); ?>">

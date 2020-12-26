@@ -126,8 +126,18 @@ class Hpp extends BaseController
 
                 if (isset($getid)) {
                     $id_hpp = $getid->id_hpp + 1;
+
                     $id_persediaan = $getid->id_hpp + 10001;
-                };
+                } else {
+                    if ($getid == NULL) {
+                        $getid = 10000;
+
+                        $id_hpp = $getid + 1;
+
+                        $id_persediaan = $getid + 10001;
+                    }
+                }
+
 
                 $simpandata = [
                     'id_hpp' => $id_hpp,
@@ -146,13 +156,14 @@ class Hpp extends BaseController
 
                 $data = [
                     'id_persediaan' => $id_persediaan,
+                    'id_hpp' => $simpandata['id_hpp'],
                     'date' => $simpandata['date']
                 ];
 
                 $this->hpp->insert_persediaan($data);
 
                 $msg = [
-                    'sukses' => 'Data Barang berhasil tersimpan',
+                    'sukses' => "Data HPP id: $id_hpp | tanggal : " . $data['date'] . "berhasil tersimpan",
                 ];
 
                 echo json_encode($msg);
@@ -168,26 +179,38 @@ class Hpp extends BaseController
     {
         if ($this->request->isAJAX()) {
             $id_hpp = $this->request->getVar('id_hpp');
-            $id_persediaan = $this->request->getVar('id_persediaan');
-
             $jmldata = count($id_hpp);
 
             for ($i = 0; $i < $jmldata; $i++) {
-                $this->hpp->delete($id_hpp[$i]);
-            };
 
-            for ($i = 0; $i < $jmldata; $i++) {
-                $this->Z->delete_persediaan($id_persediaan[$i]);
+                $this->hpp->delete($id_hpp[$i]);
+                $this->hpp->delete_persediaan($id_hpp[$i]);
             };
 
             $msg = [
-                'sukses' => "$jmldata Data Berhasil Dihapus"
+                'sukses' => "$jmldata Barang berhasil terhapus",
             ];
 
             echo json_encode($msg);
         }
     }
 
+    //--------------------------------------------------------------------
+
+    public function persediaan($id_hpp)
+    {
+        $session = session();
+
+        $pages = [
+            'title' => 'Persediaan',
+            'sub' => 'Persediaan Baranag',
+            'breadcrump' => 'Pages / HPP / Persediaan'
+        ];
+
+        $session->set($pages);
+
+        return view('hpp/persediaan/viewpersediaan');
+    }
     //--------------------------------------------------------------------
 
 }

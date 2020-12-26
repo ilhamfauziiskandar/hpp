@@ -17,12 +17,12 @@ class HppModel extends Model
 
     public function get_id_persediaan($id_hpp)
     {
-        return $this->db->query("SELECT id_persediaan FROM hpp WHERE id_hpp = $id_hpp")->getResultArray();
+        return $this->db->query("SELECT id_persediaan FROM hpp WHERE id_hpp = $id_hpp")->getResult();
     }
 
-    public function delete_persediaan($id_persediaan)
+    public function delete_persediaan($id_hpp)
     {
-        return $this->db->table('persediaan_barang')->delete(array('id_persediaan' => $id_persediaan));
+        return $this->db->table('persediaan_barang')->delete(array('id_hpp' => $id_hpp));
     }
 
     public function insert_persediaan($data)
