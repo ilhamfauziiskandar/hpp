@@ -18,19 +18,64 @@
 <div class="content">
     <div class="container">
         <div class="row">
-            <div class="col-lg">
-                <div class="card">
-                    <div class="card-header">
-                        <h2><?= session('sub'); ?></h2>
+            <div class="col-12 col-lg">
+                <div class="card card-primary card-outline card-tabs">
+                    <div class="card-header p-2 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Laporan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Persediaan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Transaksi</a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary btntambahhpp"><i class="fa fa-plus-circle"></i> HPP Baru</button>
+                        <div class="tab-content" id="custom-tabs-four-tabContent">
+                            <div class="tab-pane fade" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                                isi
+                            </div>
+                            <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                                <p class="viewdata"></p>
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                                isi2
+                            </div>
                         </div>
-                        <p class="viewdata"></p>
-                    </div><!-- /.card-body -->
-                </div><!-- /.card -->
-            </div><!-- /.col -->
+                    </div>
+                </div>
+            </div>
         </div><!-- /.row -->
     </div><!-- /.container -->
 </div><!-- /.content -->
+
+<script>
+    function datapersediaan() {
+
+        $.ajax({
+            type: "post",
+            url: "<?= base_url('hpp/ambilpersediaan') ?>",
+            data: {
+                id_persediaan: "<?= $id_persediaan ?>"
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $('.viewdata').html('<i class="fa fa-spin fa-sync"></i>')
+            },
+            success: function(response) {
+                $('.viewdata').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        datapersediaan();
+    })
+</script>
+<?= $this->endsection(); ?>

@@ -8,16 +8,21 @@ class Barang extends BaseController
 {
     public function index()
     {
-        $session = session();
+        if (session('login') == false) {
 
-        $pages = [
-            'title' => 'Barang',
-            'sub' => 'List Barang',
-            'breadcrump' => 'Pages / List Barang'
-        ];
+            return view('login/index');
+        } else {
+            $session = session();
 
-        $session->set($pages);
-        return view('barang/list_barang');
+            $pages = [
+                'title' => 'Barang',
+                'sub' => 'List Barang',
+                'breadcrump' => 'Pages / List Barang'
+            ];
+
+            $session->set($pages);
+            return view('barang/list_barang');
+        }
     }
 
     //--------------------------------------------------------------------

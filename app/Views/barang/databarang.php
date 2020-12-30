@@ -7,14 +7,14 @@
 <table id="databarang" class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>
+            <th width="5%">
                 <input type="checkbox" id="centangSemua">
             </th>
-            <th>NO</th>
-            <th>KODE BARANG</th>
+            <th width="5%">NO</th>
+            <th width="25">KODE BARANG</th>
             <th width="35%">NAMA BARANG</th>
-            <th>SATUAN</th>
-            <th>HARGA</th>
+            <th width="5%">SATUAN</th>
+            <th width="20%">HARGA</th>
             <th width="5%">ACTION</th>
         </tr>
     </thead>
@@ -32,7 +32,7 @@
                 <td><?= $no; ?></td>
                 <td><?= $barangs['kode_barang']; ?></td>
                 <td><?= $barangs['nama_barang']; ?></td>
-                <td><?= $barangs['harga']; ?></td>
+                <td><?= $barangs['satuan']; ?></td>
                 <td>Rp. <?= number_format($barangs['harga'], 0, ",", "."); ?></td>
                 <td>
                     &nbsp;

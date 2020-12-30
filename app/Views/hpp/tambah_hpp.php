@@ -130,7 +130,9 @@
                         })
 
                         $('#modaltambah').modal('hide');
+
                         datahpp();
+
                     };
 
                 },

@@ -39,6 +39,5 @@
     <!-- /.container -->
 </div>
 <!-- /.content -->
-</div>
 
 <?= $this->endsection(); ?>

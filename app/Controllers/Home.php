@@ -6,17 +6,23 @@ class Home extends BaseController
 {
 	public function index()
 	{
-		$session = session();
+		if (session('login') == false) {
 
-		$pages = [
-			'title' => 'Home',
-			'sub' => 'Home',
-			'breadcrump' => 'Home'
-		];
+			return view('login/index');
+		} else {
 
-		$session->set($pages);
+			$session = session();
 
-		return view('home');
+			$pages = [
+				'title' => 'Home',
+				'sub' => 'Home',
+				'breadcrump' => 'Home'
+			];
+
+			$session->set($pages);
+
+			return view('home');
+		}
 	}
 
 	//--------------------------------------------------------------------

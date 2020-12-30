@@ -25,10 +25,6 @@
                     </div>
                     <div class="card-body ">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary tomboltambah">
-                                <i class="fa fa-plus-circle"></i>&nbsp;Data Barang
-                            </button>
-                            &nbsp;
                             <button type="button" class="btn btn-primary tomboltambahbanyak">
                                 <i class="fa fa-plus-circle"></i>&nbsp;Data Banyak
                             </button>

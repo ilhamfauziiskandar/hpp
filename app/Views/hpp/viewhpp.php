@@ -20,6 +20,9 @@
         <div class="row">
             <div class="col-lg">
                 <div class="card">
+                    <?php if (isset($id_persediaan)) {
+                        echo $id_persediaan;
+                    } ?>
                     <div class="card-header">
                         <h2><?= session('sub'); ?></h2>
                     </div>

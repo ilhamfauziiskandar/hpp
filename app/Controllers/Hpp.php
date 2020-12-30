@@ -8,17 +8,22 @@ class Hpp extends BaseController
 {
     public function index()
     {
-        $session = session();
+        if (session('login') == false) {
 
-        $pages = [
-            'title' => 'HPP',
-            'sub' => 'Harga Pokok Produk',
-            'breadcrump' => 'Pages / HPP'
-        ];
+            return view('login/index');
+        } else {
+            $session = session();
 
-        $session->set($pages);
+            $pages = [
+                'title' => 'HPP',
+                'sub' => 'Harga Pokok Produk',
+                'breadcrump' => 'Pages / HPP'
+            ];
 
-        return view('hpp/viewhpp');
+            $session->set($pages);
+
+            return view('hpp/viewhpp');
+        }
     }
 
     //--------------------------------------------------------------------
@@ -29,7 +34,7 @@ class Hpp extends BaseController
             helper('form');
 
             $data = [
-                'hpp' => $this->hpp->findAll()
+                'hpp' => $this->hpp->get_hpp()
             ];
 
             $msg = [
@@ -164,6 +169,7 @@ class Hpp extends BaseController
 
                 $msg = [
                     'sukses' => "Data HPP id: $id_hpp | tanggal : " . $data['date'] . "berhasil tersimpan",
+                    'id_persediaan' => $id_persediaan
                 ];
 
                 echo json_encode($msg);
@@ -199,17 +205,49 @@ class Hpp extends BaseController
 
     public function persediaan($id_hpp)
     {
-        $session = session();
+        if (session('login') == false) {
 
-        $pages = [
-            'title' => 'Persediaan',
-            'sub' => 'Persediaan Baranag',
-            'breadcrump' => 'Pages / HPP / Persediaan'
-        ];
+            return view('login/index');
+        } else {
+            $session = session();
 
-        $session->set($pages);
+            $id_persediaan = $this->hpp->get_id_persediaan($id_hpp);
 
-        return view('hpp/persediaan/viewpersediaan');
+            $data = [
+                'id_persediaan' => $id_persediaan->id_persediaan
+            ];
+
+            $pages = [
+                'title' => 'Laporan HPP',
+                'sub' => 'Laporan Harga Pokok Produk',
+                'breadcrump' => 'Pages / HPP / Laporan'
+            ];
+
+            $session->set($pages);
+
+            return view('laporan/viewpersediaan', $data);
+        }
+    }
+
+    //--------------------------------------------------------------------
+
+    public function ambilpersediaan()
+    {
+        if ($this->request->isAJAX()) {
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
+            $d = [
+                'persediaan' => $this->hpp->get_persediaan($id_persediaan)
+            ];
+
+            $msg = [
+                'data' => view('laporan/datapersediaan', $d)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
     }
     //--------------------------------------------------------------------
 

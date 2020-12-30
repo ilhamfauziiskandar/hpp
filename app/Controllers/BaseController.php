@@ -18,6 +18,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\BarangModel;
 use App\Models\HppModel;
+use App\Models\LoginModel;
 
 class BaseController extends Controller
 {
@@ -47,5 +48,7 @@ class BaseController extends Controller
 
 		$this->brg = new BarangModel();
 		$this->hpp = new HppModel();
+		$this->login = new LoginModel();
+		helper('form');
 	}
 }

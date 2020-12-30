@@ -57,16 +57,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <ion-icon name="arrow-dropdown"></ion-icon>
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="fa"></i>
+                            <i class="fa"><?= session('nama'); ?></i>
                             <i class="fa fa-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-header"><b>Setting</b></span>
-                            <div class="dropdown-divider"></div>
-                            <a href="<?= base_url('/profil/index/') ?>" class="dropdown-item">
-                                <i class="fas fa-user mr-2"></i>&nbsp; Profil
-                                <span class="float-right text-muted text-sm">&nbsp;</span>
-                            </a>
                             <div class="dropdown-divider"></div>
                             <a href="<?= base_url('login/logout') ?>" class="dropdown-item">
                                 <i class="fas fa-power-off mr-2"></i>&nbsp; Log Out
