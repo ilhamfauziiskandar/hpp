@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Log in</title>
+    <title>OneStopPolos | <?= session('title'); ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -54,7 +54,7 @@
                 </div>
                 <div class="row">
                     <div class="col-8">
-                        <a href="register.html" class="text-center">Daftar Akun</a>
+                        <a href="<?= base_url('login/daftar'); ?>" class="text-center">Daftar Akun</a>
                     </div>
                     <!-- /.col -->
                     <div class="col-4">

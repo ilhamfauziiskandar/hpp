@@ -24,6 +24,16 @@
             <tr>
                 <td><?= $persediaans['id_persediaan']; ?></td>
                 <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
+                <td><?= $persediaans['kode_barang']; ?></td>
             </tr>
         <?php endforeach; ?>
 

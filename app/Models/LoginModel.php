@@ -9,7 +9,7 @@ class LoginModel extends Model
     protected $table      = 'user';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = ['nama_user', 'password', 'alamat', 'tmpt_lahir', 'tgl_lahir'];
+    protected $allowedFields = ['nama', 'username', 'password', 'password1', 'alamat', 'tmpt_lahir', 'tgl_lahir'];
 
     public function login($userid)
     {

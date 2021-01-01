@@ -72,7 +72,7 @@
 
             if (jmldata.length === 0) {
                 Swal.fire({
-                    icon: 'warning',
+                    icon: 'warn ing',
                     title: 'Maaf',
                     text: 'Pilih data terlebih dahulu sebelum di delete'
                 });
@@ -87,25 +87,27 @@
                     confirmButtonText: 'Iya',
                     cancelButtonText: 'Tidak'
                 }).then((result) => {
-                    $.ajax({
-                        type: "post",
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        dataType: "json",
-                        success: function(response) {
-                            if (response.sukses) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'berhasil',
-                                    text: response.sukses
-                                });
-                                databarang();
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "post",
+                            url: $(this).attr('action'),
+                            data: $(this).serialize(),
+                            dataType: "json",
+                            success: function(response) {
+                                if (response.sukses) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'berhasil',
+                                        text: response.sukses
+                                    });
+                                    databarang();
+                                }
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                             }
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                        }
-                    });
+                        });
+                    }
                 });
             };
         });

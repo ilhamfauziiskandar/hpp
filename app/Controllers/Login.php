@@ -104,4 +104,97 @@ class Login extends BaseController
 
         return redirect()->to(base_url('login'));
     }
+
+    //--------------------------------------------------------------------
+
+    public function daftar()
+    {
+        $session = session();
+
+        $pages = [
+            'title' => 'Daftar',
+            'sub' => 'Daftar Akun Baru',
+            'breadcrump' => 'Pages / HPP'
+        ];
+
+        $session->set($pages);
+
+        return view('login/daftar');
+    }
+
+    //--------------------------------------------------------------------
+
+    public function registration()
+    {
+        if ($this->request->isAJAX()) {
+
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'nama' => [
+                    'label' => 'Nama',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                    ]
+                ],
+                'username' => [
+                    'label' => 'Username',
+                    'rules' => 'required|is_unique[user.username]',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'is_unique' => '{field} username sudah ada, silahkan coba yang lain'
+                    ]
+                ],
+                'password' => [
+                    'label' => 'Password',
+                    'rules' => 'required|min_length[3]|matches[password1]',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'min_length' => '{field} password harus lebih dari 3 character',
+                        'matches' => '{field} password tidak sama'
+                    ]
+                ],
+                'password1' => [
+                    'label' => 'Password',
+                    'rules' => 'required|matches[password]',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'matches' => '{field} password tidak sama'
+                    ]
+                ]
+            ]);
+
+            if (!$valid) {
+
+                $msg = [
+                    'error' => [
+                        'nama' => $validation->getError('nama'),
+                        'username' => $validation->getError('username'),
+                        'password' => $validation->getError('password'),
+                        'password1' => $validation->getError('password1'),
+                    ],
+
+                ];
+
+                echo json_encode($msg);
+            } else {
+                $simpandata = [
+                    'nama' => $this->request->getVar('nama'),
+                    'username' => $this->request->getVar('username'),
+                    'password' => $this->request->getVar('password')
+                ];
+
+                $this->login->insert($simpandata);
+
+                $msg = [
+                    'sukses' => 'Akun berhasil terdaftar'
+                ];
+
+                echo json_encode($msg);
+            }
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
 }

@@ -11,7 +11,7 @@
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Title</h3>
+                        <h3 class="card-title"> Program Perhitungan HPP</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -21,11 +21,11 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        Start creating your amazing application!
+                        <h3>HALLO, <?= session('nama'); ?></h3>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        Footer
+                        &nbsp;
                     </div>
                     <!-- /.card-footer-->
                 </div>
