@@ -30,7 +30,6 @@ class Barang extends BaseController
     public function ambildata()
     {
         if ($this->request->isAJAX()) {
-            helper('form');
 
             $data = [
                 'barang' => $this->brg->findAll()
@@ -51,10 +50,12 @@ class Barang extends BaseController
     public function form_tambah_barang()
     {
         if ($this->request->isAJAX()) {
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
             helper('form');
 
             $msg = [
-                'data' => view('barang/tambah_barang')
+                'data' => view('barang/tambah_barang', $id_persediaan)
             ];
 
             echo json_encode($msg);

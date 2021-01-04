@@ -11,7 +11,7 @@ class Login extends BaseController
         $session = session();
 
         $pages = [
-            'title' => 'HPP',
+            'title' => 'Login',
             'sub' => 'Harga Pokok Produk',
             'breadcrump' => 'Pages / HPP'
         ];

@@ -16,19 +16,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet"><!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>/dist/css/adminlte.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/jquery-ui/jquery-ui.css">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="<?= base_url(); ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- jQuery -->
-    <script src="<?= base_url(); ?>/plugins/jquery/jquery.min.js"></script>
+    <script src="<?= base_url(); ?>/plugins/jquery/jquery.js"></script>
     <!-- SweetAlert2 -->
-    <script src="<?= base_url(); ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Bootstrap 4 -->
+    <script src="<?= base_url(); ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="<?= base_url(); ?>/dist/js/adminlte.min.js"></script>
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -112,10 +113,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- REQUIRED SCRIPTS -->
 
-    <!-- Bootstrap 4 -->
-    <script src="<?= base_url(); ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="<?= base_url(); ?>/dist/js/adminlte.min.js"></script>
     <script>
 
     </script>

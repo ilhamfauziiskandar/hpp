@@ -52,10 +52,10 @@ class Hpp extends BaseController
     public function form_tambahhpp()
     {
         if ($this->request->isAJAX()) {
-            helper('form');
+            $id_persediaan = $this->request->getVar('id_persediaan');
 
             $msg = [
-                'data' => view('hpp/tambah_hpp')
+                'data' => view('hpp/tambah_hpp', $id_persediaan)
             ];
 
             echo json_encode($msg);
@@ -236,8 +236,11 @@ class Hpp extends BaseController
         if ($this->request->isAJAX()) {
             $id_persediaan = $this->request->getVar('id_persediaan');
 
+            $hpp = $this->hpp->get_persediaan1($id_persediaan);
+
             $d = [
-                'persediaan' => $this->hpp->get_persediaan($id_persediaan)
+                'persediaan' => $this->hpp->get_persediaan($id_persediaan),
+                'hpp' => $hpp
             ];
 
             $msg = [
@@ -249,6 +252,144 @@ class Hpp extends BaseController
             exit('Maaf tidak dapat di akses');
         }
     }
+    //--------------------------------------------------------------------
+
+    public function form_tambahpersediaan()
+    {
+        if ($this->request->isAJAX()) {
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
+            $persediaan = $this->hpp->get_persediaan1($id_persediaan);
+
+            $d = [
+                'id_hpp' => $persediaan->id_hpp,
+                'id_persediaan' => $persediaan->id_persediaan,
+                'date' => $persediaan->date,
+            ];
+
+            $msg = [
+                'data' => view('laporan/tambahpersediaan', $d)
+            ];
+            echo json_encode($msg);
+        }
+    }
+
+    //--------------------------------------------------------------------
+
+    public function ambillaporan()
+    {
+        if ($this->request->isAJAX()) {
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
+            $hpp = $this->hpp->get_persediaan1($id_persediaan);
+
+            $d = [
+                'persediaan' => $this->hpp->get_persediaan($id_persediaan),
+                'hpp' => $hpp
+            ];
+
+            $msg = [
+                'data' => view('laporan/datalaporan', $d)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
+    //--------------------------------------------------------------------
+
+
+    public function ambiltransaksi()
+    {
+        if ($this->request->isAJAX()) {
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
+            $d = [
+                'persediaan' => $this->hpp->get_persediaan($id_persediaan)
+            ];
+
+            $msg = [
+                'data' => view('laporan/datatransaksi', $d)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
+    //--------------------------------------------------------------------
+
+    public function hapusbanyakpersediaan()
+    {
+        if ($this->request->isAJAX()) {
+            $kode_barang = $this->request->getVar('kode_barang');
+
+            $jmldata = count($kode_barang);
+
+            for ($i = 0; $i < $jmldata; $i++) {
+                $this->hpp->delete_persediaan($kode_barang[$i]);
+            };
+
+            $msg = [
+                'sukses' => "$jmldata Data Berhasil Dihapus"
+            ];
+
+            echo json_encode($msg);
+        }
+    }
+    //--------------------------------------------------------------------
+
+    public function simpanpersediaanbanyak()
+    {
+        if ($this->request->isAJAX()) {
+            $id_hpp = $this->request->getVar('id_hpp');
+
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
+            $kode_barang = $this->request->getVar('kode_barang');
+
+            $date = $this->request->getVar('date');
+
+            $qty = $this->request->getVar('qty');
+
+            $jmldata = count($kode_barang);
+
+            $gagal = 0;
+
+            $berhasil = 0;
+
+            for ($i = 0; $i < $jmldata; $i++) {
+
+                $x = $this->hpp->get_kodebarang($kode_barang[$i]);
+
+                $y = count($x);
+
+                if ($y > 0) {
+
+                    $gagal = $gagal + 1;
+                } else {
+                    $this->hpp->insert_persediaan([
+                        'id_hpp' => $id_hpp[$i],
+                        'id_persediaan' => $id_persediaan[$i],
+                        'kode_barang' => $kode_barang[$i],
+                        'date' => $date[$i],
+                        'qty' => $qty[$i],
+                        'masuk' => '0',
+                        'keluar' => '0'
+                    ]);
+                    $berhasil = $berhasil + 1;
+                }
+            }
+
+            $msg = [
+                'sukses' => "$berhasil Data Berhasil Disimpan, $gagal gagal tersimpan"
+            ];
+
+            echo json_encode($msg);
+        }
+    }
+
     //--------------------------------------------------------------------
 
 }

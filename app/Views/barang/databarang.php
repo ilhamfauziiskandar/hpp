@@ -72,21 +72,19 @@
 
             if (jmldata.length === 0) {
                 Swal.fire({
-                    icon: 'warn ing',
+                    icon: 'warning',
                     title: 'Maaf',
                     text: 'Pilih data terlebih dahulu sebelum di delete'
                 });
             } else {
-                swal.fire({
-                    title: 'DATA AKAN TERHAPUS',
-                    text: `Apakah anda yakin ingin menghapus data sebanyak ${jmldata.length} data`,
+                Swal.fire({
                     icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Iya',
-                    cancelButtonText: 'Tidak'
+                    title: 'Do you want to save the changes?',
+                    showDenyButton: true,
+                    confirmButtonText: `Save`,
+                    denyButtonText: `Don't save`,
                 }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "post",
@@ -107,8 +105,10 @@
                                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                             }
                         });
+                    } else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
                     }
-                });
+                })
             };
         });
 

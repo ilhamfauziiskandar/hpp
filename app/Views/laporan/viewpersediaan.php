@@ -36,13 +36,13 @@
                     <div class="card-body">
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-                                isi
-                            </div>
-                            <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                                 <p class="viewdata"></p>
                             </div>
+                            <div class="tab-pane fade show active" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                                <p class="viewdata1"></p>
+                            </div>
                             <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                                isi2
+                                <p class="viewdata2"></p>
                             </div>
                         </div>
                     </div>
@@ -53,11 +53,11 @@
 </div><!-- /.content -->
 
 <script>
-    function datapersediaan() {
+    function datalaporan() {
 
         $.ajax({
             type: "post",
-            url: "<?= base_url('hpp/ambilpersediaan') ?>",
+            url: "<?= base_url('hpp/ambillaporan') ?>",
             data: {
                 id_persediaan: "<?= $id_persediaan ?>"
             },
@@ -74,8 +74,52 @@
         });
     }
 
+    function datapersediaan() {
+
+        $.ajax({
+            type: "post",
+            url: "<?= base_url('hpp/ambilpersediaan') ?>",
+            data: {
+                id_persediaan: "<?= $id_persediaan ?>"
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $('.viewdata1').html('<i class="fa fa-spin fa-sync"></i>')
+            },
+            success: function(response) {
+                $('.viewdata1').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+
+    function datatransaksi() {
+
+        $.ajax({
+            type: "post",
+            url: "<?= base_url('hpp/ambiltransaksi') ?>",
+            data: {
+                id_persediaan: "<?= $id_persediaan ?>"
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $('.viewdata2').html('<i class="fa fa-spin fa-sync"></i>')
+            },
+            success: function(response) {
+                $('.viewdata2').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+
     $(document).ready(function() {
         datapersediaan();
+        datalaporan();
+        datatransaksi();
     })
 </script>
 <?= $this->endsection(); ?>

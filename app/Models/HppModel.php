@@ -22,22 +22,28 @@ class HppModel extends Model
 
     public function get_persediaan($id_persediaan)
     {
-        return $this->db->query("SELECT persediaan_barang.id_persediaan, barang.kode_barang, barang.nama_barang, barang.satuan, persediaan_barang.qty, persediaan_barang.masuk, persediaan_barang.keluar, barang.harga 
+        return $this->db->query("SELECT persediaan_barang.id_hpp, persediaan_barang.id_persediaan, barang.kode_barang, barang.nama_barang, barang.satuan, persediaan_barang.qty, persediaan_barang.masuk, persediaan_barang.keluar, barang.harga 
         FROM persediaan_barang INNER JOIN barang ON persediaan_barang.kode_barang = barang.kode_barang WHERE persediaan_barang.id_persediaan = $id_persediaan")->getResultArray();
     }
-    // public function get_persediaan()
-    // {
-    //     return $this->db->table('persediaan_barang')->get()->getResultArray();
-    // }
+
+    public function get_persediaan1($id_persediaan)
+    {
+        return $this->db->query("SELECT * FROM hpp WHERE id_persediaan = $id_persediaan")->getRow();
+    }
+
+    public function get_kodebarang($kode_barang)
+    {
+        return $this->db->query("SELECT `kode_barang` FROM `persediaan_barang` WHERE `kode_barang` = '$kode_barang'")->getResultArray();
+    }
 
     public function get_id_persediaan($id_hpp)
     {
         return $this->db->query("SELECT id_persediaan FROM hpp WHERE id_hpp = $id_hpp")->getRow();
     }
 
-    public function delete_persediaan($id_hpp)
+    public function delete_persediaan($kode_barang)
     {
-        return $this->db->table('persediaan_barang')->delete(array('id_hpp' => $id_hpp));
+        return $this->db->table('persediaan_barang')->delete(array('kode_barang' => $kode_barang));
     }
 
     public function insert_persediaan($data)

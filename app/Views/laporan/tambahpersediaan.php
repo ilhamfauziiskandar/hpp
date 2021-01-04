@@ -1,4 +1,11 @@
-<?= form_open('barang/simpandatabanyak', ['class' => 'formsimpanbanyak']); ?>
+<div class="form-group">
+    <strong>
+        <h5>TAMBAH BARANG PERSEDIAAN</h5>
+    </strong>
+    <p>note : pastikan untuk melist barang terlebih dahulu sebelum menambahkan barang persediaan</p>
+    <hr>
+</div>
+<?= form_open('hpp/simpanpersediaanbanyak', ['class' => 'formsimpanbanyak']); ?>
 <?= csrf_field(); ?>
 <p>
     <button class="btn btn-warning btnkembali" type="button">
@@ -9,12 +16,12 @@
         Submit
     </button>
 </p>
-<table class="table table-bordered table-hover">
+<table class="table table-hover">
     <thead>
         <tr>
-            <th>Kode Barang</th>
             <th>Nama Barang</th>
-            <th>Satuan</th>
+            <th width="15%">Quantity</th>
+            <th>Kode Barang</th>
             <th>Harga</th>
             <th width="5%">Action</th>
         </tr>
@@ -55,11 +62,11 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: '',
+                            title: 'berhasil',
                             html: `${response.sukses}`
                         }).then((result) => {
                             if (result.value) {
-                                window.location.href = ("<?= base_url('barang/index'); ?>")
+                                datapersediaan();
                             }
                         });
                     }
@@ -78,16 +85,19 @@
             $('.formtambah').append(`
                 <tr>
                     <td>
+                        <input type="number" name="id_hpp[]" class="form-control" value="<?= $id_hpp ?>" hidden>
+                        <input type="number" name="id_persediaan[]" class="form-control" value="<?= $id_persediaan ?>" hidden>
+                        <input type="date" name="date[]" class="form-control" value="<?= $date ?>" hidden>
+                        <input type="text" name="nama_barang[]" class="form-control" placeholder="Masukan Nama Barang">
+                    </td>
+                    <td>
+                        <input type="number" name="qty[]" class="form-control" placeholder="Jumlah">
+                    </td>
+                    <td>
                         <input type="text" name="kode_barang[]" class="form-control">
                     </td>
                     <td>
-                        <input type="text" name="nama_barang[]" class="form-control">
-                    </td>
-                    <td>
-                        <input type="text" name="satuan[]" class="form-control">
-                    </td>
-                    <td>
-                        <input type="text" name="harga[]" class="form-control">
+                        <input type="text" name="harga[]" class="form-control" disabled>
                     </td>
                     <td>
                         <button class="btn btn-danger float-right btnhapusform"><i class="fa fa-trash"></i></button>
@@ -102,7 +112,7 @@
     $('.btnkembali').click(function(e) {
         e.preventDefault();
 
-        databarang();
+        datapersediaan();
     });
 
     $(document).on('click', '.btnhapusform', function(e) {
