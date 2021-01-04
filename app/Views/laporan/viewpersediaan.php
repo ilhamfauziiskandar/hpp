@@ -51,6 +51,7 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
 </div><!-- /.content -->
+<div class="viewmodal" style="display: none;"></div>
 
 <script>
     function datalaporan() {

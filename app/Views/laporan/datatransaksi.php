@@ -6,31 +6,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>no</td>
-                <td>tanggal</td>
-                <td>asd</td>
-            </tr>
-            <tr>
-                <td>no1</td>
-                <td>tan22ggal</td>
-                <td>as33d</td>
-            </tr>
-            <tr>
-                <td>no1</td>
-                <td>tan22ggal</td>
-                <td>as33d</td>
-            </tr>
-            <tr>
-                <td>no1</td>
-                <td>tan22ggal</td>
-                <td>as33d</td>
-            </tr>
-            <tr>
-                <td>no1</td>
-                <td>tan22ggal</td>
-                <td>as33d</td>
-            </tr>
+            <?php foreach ($transaksi as $v) : ?>
+                <tr>
+                    <td><?= $v['nama_barang']; ?></td>
+                    <td><?= $v['jumlah']; ?></td>
+                    <td><?= $v['nama_status']; ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
         <tfoot>
             <tr>

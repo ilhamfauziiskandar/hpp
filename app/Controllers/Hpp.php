@@ -16,7 +16,7 @@ class Hpp extends BaseController
 
             $pages = [
                 'title' => 'HPP',
-                'sub' => 'Harga Pokok Produk',
+                'sub' => 'Harga Pokok Produk Penjualan',
                 'breadcrump' => 'Pages / HPP'
             ];
 
@@ -52,10 +52,8 @@ class Hpp extends BaseController
     public function form_tambahhpp()
     {
         if ($this->request->isAJAX()) {
-            $id_persediaan = $this->request->getVar('id_persediaan');
-
             $msg = [
-                'data' => view('hpp/tambah_hpp', $id_persediaan)
+                'data' => view('hpp/tambah_hpp')
             ];
 
             echo json_encode($msg);
@@ -158,7 +156,6 @@ class Hpp extends BaseController
 
                 $this->hpp->insert($simpandata);
 
-
                 $data = [
                     'id_persediaan' => $id_persediaan,
                     'id_hpp' => $simpandata['id_hpp'],
@@ -254,6 +251,29 @@ class Hpp extends BaseController
     }
     //--------------------------------------------------------------------
 
+    public function editpersediaan()
+    {
+        if ($this->request->isAJAX()) {
+            $id_persediaan = $this->request->getVar('id_persediaan');
+
+            $hpp = $this->hpp->get_persediaan1($id_persediaan);
+
+            $d = [
+                'persediaan' => $this->hpp->get_persediaan($id_persediaan),
+                'hpp' => $hpp
+            ];
+
+            $msg = [
+                'data' => view('laporan/editpersediaan', $d)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
+    //--------------------------------------------------------------------
+
     public function form_tambahpersediaan()
     {
         if ($this->request->isAJAX()) {
@@ -306,7 +326,7 @@ class Hpp extends BaseController
             $id_persediaan = $this->request->getVar('id_persediaan');
 
             $d = [
-                'persediaan' => $this->hpp->get_persediaan($id_persediaan)
+                'transaksi' => $this->hpp->get_transaksi($id_persediaan)
             ];
 
             $msg = [
@@ -361,7 +381,7 @@ class Hpp extends BaseController
 
             for ($i = 0; $i < $jmldata; $i++) {
 
-                $x = $this->hpp->get_kodebarang($kode_barang[$i]);
+                $x = $this->hpp->get_kodebarang($kode_barang[$i], $id_persediaan[0]);
 
                 $y = count($x);
 
@@ -387,6 +407,198 @@ class Hpp extends BaseController
             ];
 
             echo json_encode($msg);
+        }
+    }
+
+    //--------------------------------------------------------------------
+
+    public function form_masuk_barang()
+    {
+        if ($this->request->isAJAX()) {
+
+            $id_persediaan = $this->request->getVar('id_persediaan');
+            $kode_barang = $this->request->getVar('kode_barang');
+
+            $row = $this->hpp->get_stock($id_persediaan, $kode_barang);
+
+            $data = [
+                'id_persediaan' => $row->id_persediaan,
+                'kode_barang' => $row->kode_barang,
+                'nama_barang' => $row->nama_barang,
+                'qty' => $row->qty,
+                'masuk' => $row->masuk,
+                'keluar' => $row->keluar
+            ];
+            $msg = [
+                'sukses' => view('laporan/masuk_barang', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
+
+    //--------------------------------------------------------------------
+
+    public function form_keluar_barang()
+    {
+        if ($this->request->isAJAX()) {
+
+            $id_persediaan = $this->request->getVar('id_persediaan');
+            $kode_barang = $this->request->getVar('kode_barang');
+
+            $row = $this->hpp->get_stock($id_persediaan, $kode_barang);
+
+            $data = [
+                'id_persediaan' => $row->id_persediaan,
+                'kode_barang' => $row->kode_barang,
+                'nama_barang' => $row->nama_barang,
+                'qty' => $row->qty,
+                'masuk' => $row->masuk,
+                'keluar' => $row->keluar
+            ];
+
+            $msg = [
+                'sukses' => view('laporan/keluar_barang', $data)
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
+
+    //--------------------------------------------------------------------
+
+    public function masukbarang()
+    {
+        if ($this->request->isAJAX()) {
+
+            $id_persediaan = $this->request->getVar('id_persediaan');
+            $kode_barang = $this->request->getVar('kode_barang');
+            $masuk = $this->request->getVar('masuk');
+
+            $row = $this->hpp->get_stock($id_persediaan, $kode_barang);
+
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'masuk' => [
+                    'label' => 'Barang Masuk',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ]
+            ]);
+
+            if (!$valid) {
+
+                $msg = [
+                    'error' => [
+                        'masuk' => $validation->getError('masuk'),
+                    ],
+
+                ];
+
+                echo json_encode($msg);
+            } else {
+                $jumlah = $masuk + $row->masuk;
+
+                $data =
+                    [
+                        'masuk' => $jumlah
+                    ];
+
+                $this->hpp->barangmasuk($id_persediaan, $kode_barang, $data);
+
+                $data1 =
+                    [
+                        'id_persediaan' => $id_persediaan,
+                        'kode_barang' => $kode_barang,
+                        'id_status' => '1',
+                        'jumlah' => $masuk
+                    ];
+
+                $this->hpp->insert_transaksi($data1);
+
+                $msg = [
+                    'sukses' => "$masuk Data Barang berhasil masuk"
+                ];
+
+                echo json_encode($msg);
+            }
+        } else {
+            exit('Maaf tidak dapat di akses');
+        }
+    }
+
+    //--------------------------------------------------------------------
+
+    public function keluarbarang()
+    {
+        if ($this->request->isAJAX()) {
+
+            $id_persediaan = $this->request->getVar('id_persediaan');
+            $kode_barang = $this->request->getVar('kode_barang');
+            $keluar = $this->request->getVar('keluar');
+
+            $row = $this->hpp->get_stock($id_persediaan, $kode_barang);
+
+            $jumlah = $row->qty + $row->masuk - $row->keluar + 0;
+
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'keluar' => [
+                    'label' => 'Barang keluar',
+                    'rules' => 'required|less_than_equal_to[' . $jumlah . ']',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'less_than_equal_to' => '{field} tidak boleh lebih dari quantity'
+                    ]
+                ]
+            ]);
+
+            if (!$valid) {
+
+                $msg = [
+                    'error' => [
+                        'keluar' => $validation->getError('keluar'),
+                    ],
+
+                ];
+
+                echo json_encode($msg);
+            } else {
+                $jmlh_keluar = $row->keluar + $keluar + 0;
+
+                $data =
+                    [
+                        'keluar' => $jmlh_keluar
+                    ];
+
+                $this->hpp->barangkeluar($id_persediaan, $kode_barang, $data);
+
+                $data1 =
+                    [
+                        'id_persediaan' => $id_persediaan,
+                        'kode_barang' => $kode_barang,
+                        'id_status' => '2',
+                        'jumlah' => $keluar
+                    ];
+
+                $this->hpp->insert_transaksi($data1);
+
+                $msg = [
+                    'sukses' => "$keluar Data Barang berhasil keluar"
+                ];
+
+                echo json_encode($msg);
+            }
+        } else {
+            exit('Maaf tidak dapat di akses');
         }
     }
 

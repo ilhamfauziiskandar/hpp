@@ -11,7 +11,7 @@
                 <input type="checkbox" id="centangSemua">
             </th>
             <th width="5%">No</th>
-            <th>Laporan Harga Penjualan Produk</th>
+            <th>Laporan Harga Pokok Penjualan</th>
             <th width="5%">Action</th>
         </tr>
     </thead>
