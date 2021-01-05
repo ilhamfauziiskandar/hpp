@@ -1,5 +1,5 @@
 <div class="form-group">
-    <h4>Edit Persediaan</h4>
+    <h4>Edit Persediaan <?= $hpp->id_persediaan; ?></h4>
 </div>
 <div class="form-group">
 
@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="form-group">
-        <?= form_open('hpp/hapusbanyakpersediaan', ['class' => 'formhapusbanyak']) ?>
+        <?= form_open('hpp/hapusbanyakpersediaan/' .  $hpp->id_persediaan, ['class' => 'formhapusbanyak']) ?>
 
         <p>
             <button type="submit" class="btn btn-danger btn-sm float-left">

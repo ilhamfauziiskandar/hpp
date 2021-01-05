@@ -55,10 +55,6 @@
 
         <?php
         foreach ($persediaan as $persediaans) :
-            $saldo_awal = $persediaans['qty'] * $persediaans['harga'];
-            $saldo_masuk = $persediaans['masuk'] * $persediaans['harga'];
-            $saldo_keluar = $persediaans['keluar'] * $persediaans['harga'];
-
         ?>
 
             <tr>
@@ -68,12 +64,12 @@
                 <td><?= $persediaans['qty']; ?></td>
                 <td><?= $persediaans['masuk']; ?></td>
                 <td><?= $persediaans['keluar'] ?></td>
-                <td>0</td>
+                <td><?= $persediaans['stock_akhir']; ?></td>
                 <td>Rp.<?= number_format($persediaans['harga'], 0, ",", "."); ?></td>
-                <td>Rp.<?= number_format($saldo_awal, 0, ",", "."); ?></td>
-                <td>Rp.<?= number_format($saldo_masuk, 0, ",", "."); ?></td>
-                <td>Rp.<?= number_format($saldo_keluar, 0, ",", "."); ?></td>
-                <td></td>
+                <td>Rp.<?= number_format($persediaans['saldo_awal'], 0, ",", "."); ?></td>
+                <td>Rp.<?= number_format($persediaans['saldo_masuk'], 0, ",", "."); ?></td>
+                <td>Rp.<?= number_format($persediaans['saldo_keluar'], 0, ",", "."); ?></td>
+                <td>Rp.<?= number_format($persediaans['saldo_akhir'], 0, ",", "."); ?></td>
                 <td>
                     <button type="button" class="btn btn-block btn-success btn-xs" onclick="masuk('<?= $persediaans['kode_barang']; ?>', '<?= $persediaans['id_persediaan']; ?>')">
                         IN

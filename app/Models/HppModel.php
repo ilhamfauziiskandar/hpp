@@ -26,6 +26,12 @@ class HppModel extends Model
         FROM persediaan_barang INNER JOIN barang ON persediaan_barang.kode_barang = barang.kode_barang WHERE persediaan_barang.id_persediaan = $id_persediaan")->getResultArray();
     }
 
+    public function get_persediaan_complete($id_persediaan)
+    {
+        return $this->db->query("SELECT persediaan_barang.id_hpp, persediaan_barang.id_persediaan, barang.kode_barang, barang.nama_barang, barang.satuan, persediaan_barang.qty, persediaan_barang.masuk, persediaan_barang.keluar, barang.harga, (persediaan_barang.qty + persediaan_barang.masuk - persediaan_barang.keluar) as stock_akhir, (persediaan_barang.qty * barang.harga) as saldo_awal, (persediaan_barang.masuk * barang.harga) as saldo_masuk, (persediaan_barang.keluar * barang.harga) as saldo_keluar, ((persediaan_barang.qty + persediaan_barang.masuk - persediaan_barang.keluar) * barang.harga) as saldo_akhir 
+        FROM persediaan_barang INNER JOIN barang ON persediaan_barang.kode_barang = barang.kode_barang WHERE persediaan_barang.id_persediaan = '$id_persediaan'")->getResultArray();
+    }
+
     public function get_persediaan1($id_persediaan)
     {
         return $this->db->query("SELECT * FROM hpp WHERE id_persediaan = $id_persediaan")->getRow();
@@ -48,13 +54,23 @@ class HppModel extends Model
 
     public function get_transaksi($id_persediaan)
     {
-        return $this->db->query("SELECT transaksi.kode_barang, transaksi.jumlah, status.nama_status, barang.nama_barang
+        return $this->db->query("SELECT transaksi.tanggal, transaksi.kode_barang, transaksi.jumlah, status.nama_status, barang.nama_barang
         FROM transaksi JOIN status ON transaksi.id_status = status.id_status JOIN barang ON transaksi.kode_barang = barang.kode_barang WHERE transaksi.id_persediaan = $id_persediaan")->getResultArray();
     }
 
-    public function delete_persediaan($kode_barang)
+    public function delete_persediaan($kode_barang, $id_persediaan)
     {
-        return $this->db->table('persediaan_barang')->delete(array('kode_barang' => $kode_barang));
+        return $this->db->table('persediaan_barang')->delete(array('kode_barang' => $kode_barang, 'id_persediaan' => $id_persediaan));
+    }
+
+    public function delete_hpp($id_hpp)
+    {
+        return $this->db->table('hpp')->delete(array('id_hpp' => $id_hpp));
+    }
+
+    public function delete_transaksi($id_persediaan)
+    {
+        return $this->db->table('transaksi')->delete(array('id_persediaan' => $id_persediaan));
     }
 
     public function barangmasuk($id_persediaan, $kode_barang, $data)

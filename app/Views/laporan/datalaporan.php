@@ -29,7 +29,7 @@
                                     <strong>&nbsp; : &nbsp;</strong>
                                 </td>
                                 <td>
-                                    <strong></strong>
+                                    <strong> <?= date('d M Y', strtotime($hpp->date)); ?></strong>
                                 </td>
                             </tr>
                             <tr>
@@ -40,7 +40,7 @@
                                     <strong>&nbsp; : &nbsp;</strong>
                                 </td>
                                 <td>
-                                    <strong></strong>
+                                    <strong><?= $hpp->id_hpp; ?></strong>
                                 </td>
                             </tr>
                             <tr>
@@ -51,7 +51,7 @@
                                     <strong>&nbsp; : &nbsp;</strong>
                                 </td>
                                 <td>
-                                    <strong></strong>
+                                    <strong><?= $hpp->id_persediaan; ?></strong>
                                 </td>
                             </tr>
                         </table>
@@ -68,17 +68,17 @@
                         <thead>
                             <tr>
                                 <td>Pembelian</td>
-                                <td>Rp.</td>
+                                <td>Rp. <?= number_format($hpp->pembelian, 0, ",", "."); ?></td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Retur Pembelian</td>
-                                <td>Rp.</td>
+                                <td>Rp. <?= number_format($hpp->retur_pembelian, 0, ",", "."); ?></td>
                             </tr>
                             <tr>
                                 <td>Potongan Pembelian</td>
-                                <td>Rp.</td>
+                                <td>Rp. <?= number_format($hpp->pot_pembelian, 0, ",", "."); ?></td>
                             </tr>
                             <tr>
                                 <td colspan="2"></td>

@@ -236,7 +236,7 @@ class Hpp extends BaseController
             $hpp = $this->hpp->get_persediaan1($id_persediaan);
 
             $d = [
-                'persediaan' => $this->hpp->get_persediaan($id_persediaan),
+                'persediaan' => $this->hpp->get_persediaan_complete($id_persediaan),
                 'hpp' => $hpp
             ];
 
@@ -301,11 +301,9 @@ class Hpp extends BaseController
         if ($this->request->isAJAX()) {
             $id_persediaan = $this->request->getVar('id_persediaan');
 
-            $hpp = $this->hpp->get_persediaan1($id_persediaan);
-
             $d = [
-                'persediaan' => $this->hpp->get_persediaan($id_persediaan),
-                'hpp' => $hpp
+                'persediaan' => $this->hpp->get_persediaan_complete($id_persediaan),
+                'hpp' => $this->hpp->get_persediaan1($id_persediaan)
             ];
 
             $msg = [
@@ -340,7 +338,7 @@ class Hpp extends BaseController
     }
     //--------------------------------------------------------------------
 
-    public function hapusbanyakpersediaan()
+    public function hapusbanyakpersediaan($id_persediaan)
     {
         if ($this->request->isAJAX()) {
             $kode_barang = $this->request->getVar('kode_barang');
@@ -348,7 +346,7 @@ class Hpp extends BaseController
             $jmldata = count($kode_barang);
 
             for ($i = 0; $i < $jmldata; $i++) {
-                $this->hpp->delete_persediaan($kode_barang[$i]);
+                $this->hpp->delete_persediaan($kode_barang[$i], $id_persediaan);
             };
 
             $msg = [
@@ -513,12 +511,15 @@ class Hpp extends BaseController
 
                 $this->hpp->barangmasuk($id_persediaan, $kode_barang, $data);
 
+                $tgl = date('Y-m-d');
+
                 $data1 =
                     [
                         'id_persediaan' => $id_persediaan,
                         'kode_barang' => $kode_barang,
                         'id_status' => '1',
-                        'jumlah' => $masuk
+                        'jumlah' => $masuk,
+                        'tanggal' => $tgl
                     ];
 
                 $this->hpp->insert_transaksi($data1);
@@ -581,12 +582,15 @@ class Hpp extends BaseController
 
                 $this->hpp->barangkeluar($id_persediaan, $kode_barang, $data);
 
+                $tgl = date('Y-m-d');
+
                 $data1 =
                     [
                         'id_persediaan' => $id_persediaan,
                         'kode_barang' => $kode_barang,
                         'id_status' => '2',
-                        'jumlah' => $keluar
+                        'jumlah' => $keluar,
+                        'tanggal' => $tgl
                     ];
 
                 $this->hpp->insert_transaksi($data1);
