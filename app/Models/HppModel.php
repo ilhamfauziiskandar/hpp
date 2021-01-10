@@ -55,7 +55,7 @@ class HppModel extends Model
     public function get_transaksi($id_persediaan)
     {
         return $this->db->query("SELECT transaksi.tanggal, transaksi.kode_barang, transaksi.jumlah, status.nama_status, barang.nama_barang
-        FROM transaksi JOIN status ON transaksi.id_status = status.id_status JOIN barang ON transaksi.kode_barang = barang.kode_barang WHERE transaksi.id_persediaan = $id_persediaan")->getResultArray();
+        FROM transaksi JOIN status ON transaksi.id_status = status.id_status JOIN barang ON transaksi.kode_barang = barang.kode_barang WHERE transaksi.id_persediaan = $id_persediaan order by transaksi.id_transaksi desc")->getResultArray();
     }
 
     public function delete_persediaan($kode_barang, $id_persediaan)

@@ -67,21 +67,41 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <td width="51%"></td>
+                                <td width="27%">Persediaan Awal Barang</td>
+                                <td>Rp. <?= number_format($jumlah_saldo_awal, 0, ",", "."); ?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Pembelian</td>
                                 <td>Rp. <?= number_format($hpp->pembelian, 0, ",", "."); ?></td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Retur Pembelian</td>
                                 <td>Rp. <?= number_format($hpp->retur_pembelian, 0, ",", "."); ?></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Potongan Pembelian</td>
                                 <td>Rp. <?= number_format($hpp->pot_pembelian, 0, ",", "."); ?></td>
+                                <td></td>
                             </tr>
                             <tr>
-                                <td colspan="2"></td>
+                                <th>Total Pembelian Bersih</th>
+                                <td></td>
+                                <td>Rp. <?= number_format($pembelian_bersih, 0, ",", "."); ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -100,24 +120,16 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
-                                <th>Total Pembelian Bersih</th>
-                                <th width="45%">Rp. 2500000</th>
-                            </tr>
-                            <tr>
-                                <td>Persediaan Awal Barang</td>
-                                <td>Rp. 2500000</td>
-                            </tr>
-                            <tr>
-                                <td>Barang Tersedia Jual</td>
-                                <td>Rp. </td>
+                                <th>Barang Tersedia untuk Dijual</th>
+                                <td width="45%">Rp. <?= number_format($btusd, 0, ",", "."); ?></td>
                             </tr>
                             <tr>
                                 <td>Persediaan Akhir Barang</td>
-                                <td>Rp.</td>
+                                <td>Rp. <?= number_format($jumlah_saldo_akhir, 0, ",", "."); ?></td>
                             </tr>
                             <tr>
                                 <th>Harga Pokok Penjualan (HPP)</th>
-                                <th>RP.</th>
+                                <th>RP. <?= number_format($hasilhpp, 0, ",", "."); ?></th>
                             </tr>
                         </table>
                     </div>

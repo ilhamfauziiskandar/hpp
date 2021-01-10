@@ -300,11 +300,32 @@ class Hpp extends BaseController
     {
         if ($this->request->isAJAX()) {
             $id_persediaan = $this->request->getVar('id_persediaan');
+            $hpp = $this->hpp->get_persediaan1($id_persediaan);
+
+            $pembelian_bersih = $hpp->pembelian - $hpp->retur_pembelian - $hpp->pot_pembelian;
+            $persediaan = $this->hpp->get_persediaan_complete($id_persediaan);
+
+            foreach ($persediaan as $value) {
+                $jumlah_saldo_awal[] = $value['saldo_awal'];
+                $jumlah_saldo_akhir[] = $value['saldo_akhir'];
+                $jumlahnya_saldo_akhir = array_sum($jumlah_saldo_akhir);
+                $jumlahnya_saldo_awal = array_sum($jumlah_saldo_awal);
+            }
+
+            $btusd = $jumlahnya_saldo_awal + $pembelian_bersih;
+
+            $hasilhpp = $btusd - $jumlahnya_saldo_akhir;
 
             $d = [
-                'persediaan' => $this->hpp->get_persediaan_complete($id_persediaan),
-                'hpp' => $this->hpp->get_persediaan1($id_persediaan)
+                'persediaan' => $persediaan,
+                'hpp' => $hpp,
+                'pembelian_bersih' => $pembelian_bersih,
+                'jumlah_saldo_akhir' => $jumlahnya_saldo_akhir,
+                'jumlah_saldo_awal' => $jumlahnya_saldo_awal,
+                'btusd' => $btusd,
+                'hasilhpp' => $hasilhpp
             ];
+
 
             $msg = [
                 'data' => view('laporan/datalaporan', $d)
@@ -322,6 +343,7 @@ class Hpp extends BaseController
     {
         if ($this->request->isAJAX()) {
             $id_persediaan = $this->request->getVar('id_persediaan');
+            $laporan = $this->hpp->get_persediaan_complete($id_persediaan);
 
             $d = [
                 'transaksi' => $this->hpp->get_transaksi($id_persediaan)

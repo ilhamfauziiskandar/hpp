@@ -24,7 +24,7 @@
 
 <div class="form-group">
     <button type="button" class="btn btn-info" onclick="tambahbanyak('<?= $hpp->id_persediaan; ?>')">
-        <i class="fa fa-plus-circle"></i>&nbsp; Tambah Persediaan
+        <i class="fa fa-plus-circle"></i>&nbsp; Tambah Persediaan Awal
     </button>
 </div>
 <p>
@@ -91,7 +91,10 @@
 <?= form_close(); ?>
 <script>
     $(document).ready(function() {
-        $('#datapersediaan').DataTable({});
+        $('#datapersediaan').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
 
     });
 
