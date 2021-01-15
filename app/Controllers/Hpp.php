@@ -16,7 +16,7 @@ class Hpp extends BaseController
 
             $pages = [
                 'title' => 'HPP',
-                'sub' => 'Harga Pokok Produk Penjualan',
+                'sub' => 'Laporan Harga Pokok Penjualan',
                 'breadcrump' => 'Pages / HPP'
             ];
 
@@ -84,27 +84,6 @@ class Hpp extends BaseController
                     'errors' => [
                         'required' => '{field} tidak boleh kosong',
                     ]
-                ],
-                'pembelian' => [
-                    'label' => 'Pembelian',
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => '{field} tidak boleh kosong',
-                    ]
-                ],
-                'pot_pembelian' => [
-                    'label' => 'Potongan Pembelian',
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => '{field} tidak boleh kosong',
-                    ]
-                ],
-                'retur_pembelian' => [
-                    'label' => 'Retur Pembelian',
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => '{field} tidak boleh kosong',
-                    ]
                 ]
             ]);
 
@@ -113,11 +92,7 @@ class Hpp extends BaseController
                 $msg = [
                     'error' => [
                         'tanggal' => $validation->getError('date'),
-                        'nama_hpp' => $validation->getError('nama_hpp'),
-                        'pembelian' => $validation->getError('pembelian'),
-                        'tanggal' => $validation->getError('date'),
-                        'pot_pembelian' => $validation->getError('pot_pembelian'),
-                        'retur_pembelian' => $validation->getError('retur_pembelian'),
+                        'nama_hpp' => $validation->getError('nama_hpp')
                     ]
 
                 ];
@@ -130,7 +105,7 @@ class Hpp extends BaseController
                 if (isset($getid)) {
                     $id_hpp = $getid->id_hpp + 1;
 
-                    $id_persediaan = $getid->id_hpp + 10001;
+                    $id_persediaan = $getid->id_persediaan + 1;
                 } else {
                     if ($getid == NULL) {
                         $getid = 10000;
@@ -146,12 +121,7 @@ class Hpp extends BaseController
                     'id_hpp' => $id_hpp,
                     'id_persediaan' => $id_persediaan,
                     'date' => $this->request->getVar('date'),
-                    'nama_hpp' => $this->request->getVar('nama_hpp'),
-                    'pembelian' => $this->request->getVar('pembelian'),
-                    'pot_pembelian' => $this->request->getVar('pot_pembelian'),
-                    'retur_pembelian' => $this->request->getVar('retur_pembelian'),
-                    'persediaan_awal' => '0',
-                    'persediaan_akhir' => '0'
+                    'nama_hpp' => $this->request->getVar('nama_hpp')
                 ];
 
                 $this->hpp->insert($simpandata);
@@ -186,8 +156,11 @@ class Hpp extends BaseController
 
             for ($i = 0; $i < $jmldata; $i++) {
 
+                $row = $this->hpp->find($id_hpp[$i]);
+                $id_persediaan = $row['id_persediaan'];
+                $this->hpp->delete_transaksi($id_persediaan);
+                $this->hpp->delete_persediaan1($id_hpp[$i]);
                 $this->hpp->delete($id_hpp[$i]);
-                $this->hpp->delete_persediaan($id_hpp[$i]);
             };
 
             $msg = [
@@ -296,18 +269,41 @@ class Hpp extends BaseController
 
     //--------------------------------------------------------------------
 
+    function get_autocomplete()
+    {
+        $namabarang = $this->input->get('namabarang');
+        $fieldName = $this->input->get('fieldName');
+        $barang = $this->hpp->getfood($namabarang, $fieldName);
+        echo json_encode($barang);
+        exit;
+    }
+
+    //--------------------------------------------------------------------
+
     public function ambillaporan()
     {
         if ($this->request->isAJAX()) {
             $id_persediaan = $this->request->getVar('id_persediaan');
+
             $hpp = $this->hpp->get_persediaan1($id_persediaan);
 
+            $transaksi = $this->hpp->get_transaksi($id_persediaan);
 
-            $pembelian_bersih = $hpp->pembelian - $hpp->retur_pembelian - $hpp->pot_pembelian;
             $persediaan = $this->hpp->get_persediaan_complete($id_persediaan);
             if ($persediaan == NULL) {
                 $jumlahnya_saldo_awal = 0;
+
                 $jumlahnya_saldo_akhir = 0;
+
+                $jumlah_barang_beli = 0;
+
+                $pembelian = 0;
+
+                $retur_pembelian = 0;
+
+                $pot_pembelian = 0;
+
+                $pembelian_bersih = $pembelian - $retur_pembelian - $pot_pembelian;
 
                 $btusd = $jumlahnya_saldo_awal + $pembelian_bersih;
 
@@ -316,23 +312,35 @@ class Hpp extends BaseController
                 $d = [
                     'persediaan' => $persediaan,
                     'hpp' => $hpp,
+                    'retur_pembelian' => $retur_pembelian,
+                    'pot_pembelian' => $pot_pembelian,
                     'pembelian_bersih' => $pembelian_bersih,
                     'jumlah_saldo_akhir' => $jumlahnya_saldo_akhir,
                     'jumlah_saldo_awal' => $jumlahnya_saldo_awal,
                     'btusd' => $btusd,
-                    'hasilhpp' => $hasilhpp
+                    'hasilhpp' => $hasilhpp,
+                    'jumlah_barang_beli' => $jumlah_barang_beli
                 ];
-            } else {
+            } elseif ($transaksi == NULL) {
                 foreach ($persediaan as $value) {
 
                     $jumlah_saldo_awal[] = $value['saldo_awal'];
 
                     $jumlah_saldo_akhir[] = $value['saldo_akhir'];
+                    $barang_beli[] = $value['harga'] * $value['masuk'];
 
-
+                    $jumlah_barang_beli = array_sum($barang_beli);
                     $jumlahnya_saldo_akhir = array_sum($jumlah_saldo_akhir);
                     $jumlahnya_saldo_awal = array_sum($jumlah_saldo_awal);
                 }
+
+                $pembelian = 0;
+
+                $retur_pembelian = 0;
+
+                $pot_pembelian = 0;
+
+                $pembelian_bersih = $pembelian - $retur_pembelian - $pot_pembelian;
 
                 $btusd = $jumlahnya_saldo_awal + $pembelian_bersih;
 
@@ -341,11 +349,54 @@ class Hpp extends BaseController
                 $d = [
                     'persediaan' => $persediaan,
                     'hpp' => $hpp,
+                    'retur_pembelian' => $retur_pembelian,
+                    'pot_pembelian' => $pot_pembelian,
                     'pembelian_bersih' => $pembelian_bersih,
                     'jumlah_saldo_akhir' => $jumlahnya_saldo_akhir,
                     'jumlah_saldo_awal' => $jumlahnya_saldo_awal,
                     'btusd' => $btusd,
-                    'hasilhpp' => $hasilhpp
+                    'hasilhpp' => $hasilhpp,
+                    'jumlah_barang_beli' => $jumlah_barang_beli
+                ];
+            } else {
+
+                foreach ($transaksi as $t) {
+                    $retur[] = $t['retur_pembelian'];
+                    $pot[] = $t['pot_pembelian'];
+
+                    $retur_pembelian = array_sum($retur);
+                    $pot_pembelian = array_sum($pot);
+                }
+
+                foreach ($persediaan as $value) {
+
+                    $jumlah_saldo_awal[] = $value['saldo_awal'];
+
+                    $jumlah_saldo_akhir[] = $value['saldo_akhir'];
+                    $barang_beli[] = $value['harga'] * $value['masuk'];
+
+                    $jumlah_barang_beli = array_sum($barang_beli);
+                    $jumlahnya_saldo_akhir = array_sum($jumlah_saldo_akhir);
+                    $jumlahnya_saldo_awal = array_sum($jumlah_saldo_awal);
+                }
+
+                $pembelian_bersih_seharusnya = $jumlah_barang_beli - $retur_pembelian - $pot_pembelian;
+
+                $btusd = $jumlahnya_saldo_awal + $pembelian_bersih_seharusnya;
+
+                $hasilhpp = $btusd - $jumlahnya_saldo_akhir;
+
+                $d = [
+                    'persediaan' => $persediaan,
+                    'hpp' => $hpp,
+                    'retur_pembelian' => $retur_pembelian,
+                    'pot_pembelian' => $pot_pembelian,
+                    'pembelian_bersih' => $pembelian_bersih_seharusnya,
+                    'jumlah_saldo_akhir' => $jumlahnya_saldo_akhir,
+                    'jumlah_saldo_awal' => $jumlahnya_saldo_awal,
+                    'btusd' => $btusd,
+                    'hasilhpp' => $hasilhpp,
+                    'jumlah_barang_beli' => $jumlah_barang_beli
                 ];
             }
 
@@ -392,6 +443,7 @@ class Hpp extends BaseController
 
             for ($i = 0; $i < $jmldata; $i++) {
                 $this->hpp->delete_persediaan($kode_barang[$i], $id_persediaan);
+                $this->hpp->delete_transaksi($id_persediaan);
             };
 
             $msg = [
@@ -521,6 +573,8 @@ class Hpp extends BaseController
             $id_persediaan = $this->request->getVar('id_persediaan');
             $kode_barang = $this->request->getVar('kode_barang');
             $masuk = $this->request->getVar('masuk');
+            $retur = $this->request->getVar('retur_pembelian');
+            $pot = $this->request->getVar('pot_pembelian');
 
             $row = $this->hpp->get_stock($id_persediaan, $kode_barang);
 
@@ -533,6 +587,20 @@ class Hpp extends BaseController
                     'errors' => [
                         'required' => '{field} tidak boleh kosong'
                     ]
+                ],
+                'pot_pembelian' => [
+                    'label' => 'Potongan Pembelian',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'retur_pembelian' => [
+                    'label' => 'Retur Pembelian',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
                 ]
             ]);
 
@@ -541,8 +609,9 @@ class Hpp extends BaseController
                 $msg = [
                     'error' => [
                         'masuk' => $validation->getError('masuk'),
-                    ],
-
+                        'pot' => $validation->getError('retur_pembelian'),
+                        'retur' => $validation->getError('pot_pembelian')
+                    ]
                 ];
 
                 echo json_encode($msg);
@@ -564,6 +633,8 @@ class Hpp extends BaseController
                         'kode_barang' => $kode_barang,
                         'id_status' => '1',
                         'jumlah' => $masuk,
+                        'retur_pembelian' => $retur,
+                        'pot_pembelian' => $pot,
                         'tanggal' => $tgl
                     ];
 
@@ -635,6 +706,8 @@ class Hpp extends BaseController
                         'kode_barang' => $kode_barang,
                         'id_status' => '2',
                         'jumlah' => $keluar,
+                        'retur_pembelian' => '0',
+                        'pot_pembelian' => '0',
                         'tanggal' => $tgl
                     ];
 

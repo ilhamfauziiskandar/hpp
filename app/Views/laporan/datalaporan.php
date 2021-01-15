@@ -80,19 +80,19 @@
                             </tr>
                             <tr>
                                 <td>Pembelian</td>
-                                <td>Rp. <?= number_format($hpp->pembelian, 0, ",", "."); ?></td>
+                                <td>Rp. <?= number_format($jumlah_barang_beli, 0, ",", "."); ?></td>
                                 <td></td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Retur Pembelian</td>
-                                <td>Rp. <?= number_format($hpp->retur_pembelian, 0, ",", "."); ?></td>
+                                <td>Rp. <?= number_format($retur_pembelian, 0, ",", "."); ?></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>Potongan Pembelian</td>
-                                <td>Rp. <?= number_format($hpp->pot_pembelian, 0, ",", "."); ?></td>
+                                <td>Rp. <?= number_format($pot_pembelian, 0, ",", "."); ?></td>
                                 <td></td>
                             </tr>
                             <tr>

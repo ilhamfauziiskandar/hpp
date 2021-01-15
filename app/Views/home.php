@@ -11,7 +11,7 @@
             <div class="col-lg">
                 <div class="card">
                     <div class="card-header">
-                        <h1 class="card-title"> Program Perhitungan Harga Pokok Produk ( HPP )</h1>
+                        <h1 class="card-title"> Program Penentuan Harga Pokok Penjualan ( HPP )</h1>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">

@@ -127,7 +127,8 @@
         $(document).ready(function(e) {
             $('.btnkembali').click(function(e) {
                 e.preventDefault();
-
+                datalaporan();
+                datatransaksi();
                 datapersediaan();
             });
         });

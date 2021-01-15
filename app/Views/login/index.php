@@ -28,7 +28,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Perhitungan Harga Penjualan Produk</p>
+                <p class="login-box-msg">Penentuan Harga Pokok Penjualan</p>
 
                 <?= form_open('login/cekuser', ['class' => 'formlogin']); ?>
                 <?= csrf_field(); ?>

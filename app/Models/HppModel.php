@@ -8,7 +8,7 @@ class HppModel extends Model
 {
     protected $table      = 'hpp';
     protected $primaryKey = 'id_hpp';
-    protected $allowedFields = ['id_hpp', 'id_persediaan', 'date', 'nama_hpp', 'pembelian', 'retur_pembelian', 'pot_pembelian', 'persediaan_awal', 'persediaan_akhir'];
+    protected $allowedFields = ['id_hpp', 'id_persediaan', 'date', 'nama_hpp'];
 
     public function get_hpp()
     {
@@ -17,7 +17,7 @@ class HppModel extends Model
 
     public function get_last()
     {
-        return $this->db->query("SELECT id_hpp FROM hpp")->getLastRow();
+        return $this->db->query("SELECT id_hpp, id_persediaan FROM hpp")->getLastRow();
     }
 
     public function get_persediaan($id_persediaan)
@@ -54,13 +54,17 @@ class HppModel extends Model
 
     public function get_transaksi($id_persediaan)
     {
-        return $this->db->query("SELECT transaksi.tanggal, transaksi.kode_barang, transaksi.jumlah, status.nama_status, barang.nama_barang
-        FROM transaksi JOIN status ON transaksi.id_status = status.id_status JOIN barang ON transaksi.kode_barang = barang.kode_barang WHERE transaksi.id_persediaan = $id_persediaan order by transaksi.id_transaksi desc")->getResultArray();
+        return $this->db->query("SELECT transaksi.tanggal, transaksi.kode_barang, transaksi.jumlah, status.nama_status, barang.nama_barang, barang.harga, (transaksi.jumlah * barang.harga) AS total, transaksi.retur_pembelian, transaksi.pot_pembelian FROM transaksi JOIN status ON transaksi.id_status = status.id_status JOIN barang ON transaksi.kode_barang = barang.kode_barang WHERE transaksi.id_persediaan = $id_persediaan order by transaksi.id_transaksi desc")->getResultArray();
     }
 
     public function delete_persediaan($kode_barang, $id_persediaan)
     {
         return $this->db->table('persediaan_barang')->delete(array('kode_barang' => $kode_barang, 'id_persediaan' => $id_persediaan));
+    }
+
+    public function delete_persediaan1($id_hpp)
+    {
+        return $this->db->table('persediaan_barang')->delete(array('id_hpp' => $id_hpp));
     }
 
     public function delete_hpp($id_hpp)
@@ -96,5 +100,20 @@ class HppModel extends Model
     public function insert_transaksi($data)
     {
         return $this->db->table('transaksi')->insert($data);
+    }
+
+    public function getbarang($namabarang, $fieldName)
+    {
+        if (empty($fieldName)) {
+            $fieldName = 'namabarang';
+        }
+        $namabarang = strtolower(trim($namabarang));
+        $query = $this->db
+            ->table('barang')
+            ->where("LOWER($fieldName) LIKE '$namabarang%'")
+            ->limit(20)
+            ->get();
+
+        return $query->getresultarray();
     }
 }

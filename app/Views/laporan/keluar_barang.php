@@ -84,6 +84,8 @@
                         })
 
                         $('#modalkeluar').modal('hide');
+                        datalaporan();
+                        datatransaksi();
                         datapersediaan();
                     };
 

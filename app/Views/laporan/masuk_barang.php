@@ -34,6 +34,20 @@
 
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">(5) Retur Pembelian</label>
+                        <input type="number" name="retur_pembelian" class="form-control" id="retur_pembelian">
+                        <div class="invalid-feedback errorretur">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">(6) Potongan Pembelian</label>
+                        <input type="number" name="pot_pembelian" class="form-control" id="pot_pembelian">
+                        <div class="invalid-feedback errorpot">
+
+                        </div>
+                    </div>
                     <!-- /.card-body -->
                 </div>
             </div>
@@ -75,6 +89,22 @@
                             $('.errormasuk').html('');
                         }
 
+                        if (response.error.retur) {
+                            $('#retur_pembelian').addClass('is-invalid');
+                            $('.errorretur').html(response.error.retur);
+                        } else {
+                            $('#retur_pembelian').removeClass('is-invalid');
+                            $('.errorretur').html('');
+                        }
+
+                        if (response.error.pot) {
+                            $('#pot_pembelian').addClass('is-invalid');
+                            $('.errorpot').html(response.error.pot);
+                        } else {
+                            $('#pot_pembelian').removeClass('is-invalid');
+                            $('.errorpot').html('');
+                        }
+
                     } else {
                         Swal.fire({
                             icon: 'success',
@@ -83,6 +113,8 @@
                         })
 
                         $('#modalmasuk').modal('hide');
+                        datalaporan();
+                        datatransaksi();
                         datapersediaan();
                     };
 

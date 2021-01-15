@@ -29,27 +29,6 @@
 
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">(3) Pembelian</label>
-                        <input type="number" name="pembelian" class="form-control" id="pembelian">
-                        <div class="invalid-feedback errorpembelian">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">(4) Retur Pembelian</label>
-                        <input type="number" name="retur_pembelian" class="form-control" id="retur_pembelian">
-                        <div class="invalid-feedback errorretur_pembelian">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">(5) Potongan Pembelian</label>
-                        <input type="number" name="pot_pembelian" class="form-control" id="pot_pembelian">
-                        <div class="invalid-feedback errorpot_pembelian">
-
-                        </div>
-                    </div>
                     <!-- /.card-body -->
                 </div>
             </div>
@@ -97,30 +76,6 @@
                         } else {
                             $('#nama_hpp').removeClass('is-invalid');
                             $('.errornama_hpp').html('');
-                        }
-
-                        if (response.error.pembelian) {
-                            $('#pembelian').addClass('is-invalid');
-                            $('.errorpembelian').html(response.error.pembelian);
-                        } else {
-                            $('#pembelian').removeClass('is-invalid');
-                            $('.errorpembelian').html('');
-                        }
-
-                        if (response.error.pot_pembelian) {
-                            $('#pot_pembelian').addClass('is-invalid');
-                            $('.errorpot_pembelian').html(response.error.pot_pembelian);
-                        } else {
-                            $('#pot_pembelian').removeClass('is-invalid');
-                            $('.errorpot_pembelian').html('');
-                        }
-
-                        if (response.error.retur_pembelian) {
-                            $('#retur_pembelian').addClass('is-invalid');
-                            $('.errorretur_pembelian').html(response.error.retur_pembelian);
-                        } else {
-                            $('#retur_pembelian').removeClass('is-invalid');
-                            $('.errorretur_pembelian').html('');
                         }
                     } else {
                         Swal.fire({

@@ -81,9 +81,11 @@
 
         $('.btnaddform').click(function(e) {
             e.preventDefault();
-
+            rowCount = $('#persediaan_awal tbody tr').length + 1;
+            console.log(rowCount);
             $('.formtambah').append(`
                 <tr>
+                <tr id = "row_  ` + rowCount + `">
                     <td>
                         <input type="number" name="id_hpp[]" class="form-control" value="<?= $id_hpp ?>" hidden>
                         <input type="number" name="id_persediaan[]" class="form-control" value="<?= $id_persediaan ?>" hidden>
@@ -111,7 +113,8 @@
     // listener
     $('.btnkembali').click(function(e) {
         e.preventDefault();
-
+        datalaporan();
+        datatransaksi();
         datapersediaan();
     });
 

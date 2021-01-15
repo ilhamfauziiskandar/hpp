@@ -112,10 +112,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
-
-    <script>
-
-    </script>
+    <script script src="<?= base_url(); ?>/dist/js/jquery-ui.js"></script>
+    <script src="<?= base_url(); ?>/plugins/jquery-ui/jquery-ui.js"></script>
 </body>
 
 </html>
