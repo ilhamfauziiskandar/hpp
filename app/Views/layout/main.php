@@ -24,6 +24,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/jquery-ui/jquery-ui.css">
     <!-- jQuery -->
     <script src="<?= base_url(); ?>/plugins/jquery/jquery.js"></script>
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Bootstrap 4 -->

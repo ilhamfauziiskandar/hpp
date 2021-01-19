@@ -66,6 +66,8 @@
                             html: `${response.sukses}`
                         }).then((result) => {
                             if (result.value) {
+                                datalaporan();
+                                datatransaksi();
                                 datapersediaan();
                             }
                         });

@@ -64,12 +64,12 @@
             <!-- Table row -->
             <div class="row">
                 <div class="col-12 table-responsive">
-                    <table class="table">
+                    <table class="table" style="border: 1px;">
                         <thead>
                             <tr>
                                 <td width="51%"></td>
-                                <td width="27%">Persediaan Awal Barang</td>
-                                <td>Rp. <?= number_format($jumlah_saldo_awal, 0, ",", "."); ?></td>
+                                <td style="background-color: #E6E6FA;" width=" 27%">Persediaan Awal Barang</td>
+                                <td style="background-color: #E6E6FA;">Rp. <?= number_format($jumlah_saldo_awal, 0, ",", "."); ?></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -79,8 +79,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Pembelian</td>
-                                <td>Rp. <?= number_format($jumlah_barang_beli, 0, ",", "."); ?></td>
+                                <td style="background-color: #F0F8FF;">Pembelian</td>
+                                <td style="background-color: #F0F8FF;">Rp. <?= number_format($jumlah_barang_beli, 0, ",", "."); ?></td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -137,8 +137,44 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
+            <div class="row">
+                <div class="col-6">
+                    <table class="table">
+                        <form action="#" method="post">
+                            <tr>
+                                <th>Penjualan</th>
+                                <th>:</th>
+                                <th><input type="number" id="penjualan"></th>
+                            </tr>
+                            <tr>
+                                <th>HPP</th>
+                                <th>:</th>
+                                <th><input type="number" id="hpp" value="<?= $hasilhpp; ?>" readonly></th>
+                            </tr>
+                            <tr>
+                                <th>Laba Kotor</th>
+                                <th>:</th>
+                                <th><input type="text" id="total" class="total" data-a-sign="Rp. " data-a-dec="," data-a-sep="." readonly></th>
+                            </tr>
+                        </form>
+                    </table>
+                </div>
+            </div>
         </div>
         <!-- /.invoice -->
     </div>
     <!-- /.col -->
 </div>
+<script>
+    $(document).ready(function() {
+
+        $("#penjualan, #hpp").keyup(function() {
+            var penjualan = $("#penjualan").val();
+            var hpp = $("#hpp").val();
+
+            var total = parseInt(penjualan) - parseInt(hpp);
+            $("#total").val(total);
+        });
+
+    });
+</script>
